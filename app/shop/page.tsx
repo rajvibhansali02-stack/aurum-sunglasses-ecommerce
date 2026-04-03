@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import ProductCard, { Product } from "@/components/ProductCard";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 
@@ -8,7 +9,9 @@ import { allProducts, BRANDS, COLORS, GENDERS } from "@/lib/data";
 
 type SortOption = "featured" | "price-asc" | "price-desc" | "trending" | "new" | "rating";
 
-export default function ShopPage() {
+function ShopContent() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("q") || "";
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedGenders, setSelectedGenders] = useState<string[]>([]);
@@ -22,6 +25,16 @@ export default function ShopPage() {
 
   const filteredAndSortedProducts = useMemo(() => {
     let result = [...allProducts];
+
+    // Search
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(p => 
+        p.name.toLowerCase().includes(q) || 
+        (p.brand && p.brand.toLowerCase().includes(q)) ||
+        (p.category && p.category.toLowerCase().includes(q))
+      );
+    }
 
     // Filter
     if (selectedBrands.length > 0) {
@@ -58,7 +71,7 @@ export default function ShopPage() {
     }
 
     return result;
-  }, [selectedBrands, selectedColors, selectedGenders, sortBy]);
+  }, [selectedBrands, selectedColors, selectedGenders, sortBy, searchQuery]);
 
   return (
     <div className="min-h-screen bg-black pt-32 pb-24">
@@ -66,9 +79,13 @@ export default function ShopPage() {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 border-b border-white/10 pb-6">
           <div>
-            <h1 className="text-4xl md:text-5xl font-serif text-white mb-4">The Collection</h1>
+            <h1 className="text-4xl md:text-5xl font-serif text-white mb-4">
+              {searchQuery ? `Search Results for "${searchQuery}"` : "The Collection"}
+            </h1>
             <p className="text-gray-400 font-light max-w-xl">
-              Explore our complete range of meticulously crafted luxury eyewear. Find your signature style.
+              {searchQuery 
+                ? `Showing results for your search query.` 
+                : `Explore our complete range of meticulously crafted luxury eyewear. Find your signature style.`}
             </p>
           </div>
           
@@ -298,5 +315,13 @@ export default function ShopPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black pt-32 pb-24 text-center text-white flex items-center justify-center"><div className="w-8 h-8 border-t-2 border-gold-500 border-solid rounded-full animate-spin"></div></div>}>
+      <ShopContent />
+    </Suspense>
   );
 }

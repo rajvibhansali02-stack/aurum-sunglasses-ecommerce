@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ShoppingBag, Heart, User, Search, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -11,7 +12,20 @@ import { useAppContext } from "@/app/providers";
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
   const { cartItems, likedItems, user } = useAppContext();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsSearchOpen(false);
+      setMobileMenuOpen(false);
+      setSearchQuery("");
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,7 +82,10 @@ export default function Navbar() {
 
         {/* Icons */}
         <div className="flex items-center gap-5 text-white">
-          <button className="hover:text-gold-500 transition-colors hidden md:block">
+          <button 
+            className="hover:text-gold-500 transition-colors hidden md:block"
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+          >
             <Search size={20} />
           </button>
           <Link href="/wishlist" className="hover:text-gold-500 transition-colors hidden md:block relative">
@@ -93,6 +110,39 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Search Bar Overlay */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full left-0 w-full bg-[#0a0a0a]/95 backdrop-blur-md border-b border-gray-800 p-4 z-40 hidden md:block"
+          >
+            <div className="container mx-auto px-6 md:px-12">
+              <form onSubmit={handleSearch} className="relative flex items-center">
+                <Search size={20} className="absolute left-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-black border border-gray-800 text-white pl-12 pr-12 py-3 focus:outline-none focus:border-gold-500 transition-colors"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsSearchOpen(false)}
+                  className="absolute right-4 text-gray-400 hover:text-white"
+                >
+                  <X size={20} />
+                </button>
+              </form>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -112,10 +162,21 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <div className="flex gap-8 mt-8">
-              <button className="text-gray-400 hover:text-gold-500">
-                <Search size={24} />
-              </button>
+            <div className="w-full px-8 mb-4 max-w-sm">
+              <form onSubmit={handleSearch} className="relative flex items-center w-full">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-transparent border-b border-gray-600 text-white pb-2 text-sm focus:outline-none focus:border-gold-500 transition-colors placeholder:text-gray-600"
+                />
+                <button type="submit" className="absolute right-0 text-gray-400 hover:text-gold-500 pb-2">
+                  <Search size={18} />
+                </button>
+              </form>
+            </div>
+            <div className="flex gap-8">
               <Link href="/wishlist" className="text-gray-400 hover:text-gold-500" onClick={() => setMobileMenuOpen(false)}>
                 <Heart size={24} />
               </Link>
