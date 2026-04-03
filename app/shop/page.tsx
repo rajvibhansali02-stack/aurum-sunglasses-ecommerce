@@ -4,21 +4,7 @@ import { useState, useMemo } from "react";
 import ProductCard, { Product } from "@/components/ProductCard";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 
-// Mock Data
-const allProducts: Product[] = [
-  { id: "prod_001", name: "Tortoise Elegance", price: 450, category: "Cat Eye", image: "/sunglass-1.jpg", isNew: true, rating: 4.8, color: ["Tortoise", "Gold"], brand: "Versace", gender: "Women", isTrending: true },
-  { id: "prod_002", name: "Gold Standard", price: 520, category: "Oval", image: "/sunglass-2.jpg", rating: 4.5, color: ["Gold", "Brown"], brand: "Bottega Veneta", gender: "Unisex", isTrending: false },
-  { id: "prod_003", name: "Rimless Stealth", price: 380, category: "Rectangle", image: "/sunglass-3.jpg", rating: 4.9, color: ["Black"], brand: "Gucci", gender: "Men", isTrending: true },
-  { id: "prod_004", name: "Baroque Round", price: 550, category: "Round", image: "/sunglass-4.jpg", isNew: true, rating: 4.7, color: ["Black", "Gold"], brand: "Versace", gender: "Unisex", isTrending: true },
-  { id: "prod_005", name: "Serpenti Charm", price: 610, category: "Oval", image: "/sunglass-5.jpg", rating: 4.3, color: ["Gold", "Brown"], brand: "Bvlgari", gender: "Women", isTrending: false },
-  { id: "prod_006", name: "The Monte Carlo", price: 450, category: "Premium Aviator", image: "/product1.png", isNew: true, rating: 4.8, color: ["Black", "Gold"], brand: "Tom Ford", gender: "Men", isTrending: true },
-  { id: "prod_007", name: "Obsidian Square", price: 320, category: "Modern Classic", image: "/product2.png", rating: 4.5, color: ["Black"], brand: "Prada", gender: "Unisex", isTrending: false },
-  { id: "prod_008", name: "Azure Horizon", price: 380, category: "Minimalist", image: "/product3.png", rating: 4.9, color: ["Blue", "Silver"], brand: "Ray-Ban", gender: "Women", isTrending: true },
-];
-
-const BRANDS = ["Versace", "Bottega Veneta", "Gucci", "Bvlgari", "Tom Ford", "Prada", "Ray-Ban", "Oakley", "Oliver Peoples"];
-const COLORS = ["Black", "Gold", "Silver", "Blue", "Red", "Tortoise", "Pink", "Brown"];
-const GENDERS = ["Men", "Women", "Unisex"];
+import { allProducts, BRANDS, COLORS, GENDERS } from "@/lib/data";
 
 type SortOption = "featured" | "price-asc" | "price-desc" | "trending" | "new" | "rating";
 

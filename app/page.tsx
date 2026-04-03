@@ -3,30 +3,7 @@ import ProductCard, { Product } from "@/components/ProductCard";
 import Image from "next/image";
 import Link from "next/link";
 
-const featuredProducts: Product[] = [
-  {
-    id: "prod_001",
-    name: "Tortoise Elegance",
-    price: 450,
-    category: "Cat Eye",
-    image: "/sunglass-1.jpg",
-    isNew: true,
-  },
-  {
-    id: "prod_002",
-    name: "Gold Standard",
-    price: 520,
-    category: "Oval",
-    image: "/sunglass-2.jpg",
-  },
-  {
-    id: "prod_003",
-    name: "Rimless Stealth",
-    price: 380,
-    category: "Rectangle",
-    image: "/sunglass-3.jpg",
-  }
-];
+import { allProducts } from "@/lib/data";
 
 export default function Home() {
   return (
@@ -45,8 +22,8 @@ export default function Home() {
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {featuredProducts.map((product) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 gap-10">
+          {allProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
