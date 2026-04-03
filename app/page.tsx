@@ -6,25 +6,25 @@ import Link from "next/link";
 const featuredProducts: Product[] = [
   {
     id: "prod_001",
-    name: "The Monte Carlo",
+    name: "Tortoise Elegance",
     price: 450,
-    category: "Premium Aviator",
-    image: "/product1.png",
+    category: "Cat Eye",
+    image: "/sunglass-1.jpg",
     isNew: true,
   },
   {
     id: "prod_002",
-    name: "Obsidian Square",
-    price: 320,
-    category: "Modern Classic",
-    image: "/product2.png",
+    name: "Gold Standard",
+    price: 520,
+    category: "Oval",
+    image: "/sunglass-2.jpg",
   },
   {
     id: "prod_003",
-    name: "Azure Horizon",
+    name: "Rimless Stealth",
     price: 380,
-    category: "Minimalist",
-    image: "/product3.png",
+    category: "Rectangle",
+    image: "/sunglass-3.jpg",
   }
 ];
 
@@ -58,7 +58,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative aspect-square md:aspect-[4/3] w-full bg-black">
                <Image 
-                  src="/hero.png" 
+                  src="/sunglass-1.jpg" 
                   alt="Craftsmanship" 
                   fill
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
@@ -97,14 +97,14 @@ export default function Home() {
          </div>
          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Link href="/category/men" className="group relative aspect-[16/9] bg-black overflow-hidden flex items-center justify-center">
-               <Image src="/product1.png" alt="Men" fill className="object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" />
+               <Image src="/sunglass-3.jpg" alt="Men" fill className="object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" />
                <div className="relative z-10 text-center">
                   <h4 className="text-3xl font-serif text-white mb-2">Men's Collection</h4>
                   <span className="text-xs uppercase tracking-widest text-gold-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0 block">Explore</span>
                </div>
             </Link>
             <Link href="/category/women" className="group relative aspect-[16/9] bg-black overflow-hidden flex items-center justify-center">
-               <Image src="/product2.png" alt="Women" fill className="object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" />
+               <Image src="/sunglass-5.jpg" alt="Women" fill className="object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" />
                <div className="relative z-10 text-center">
                   <h4 className="text-3xl font-serif text-white mb-2">Women's Collection</h4>
                   <span className="text-xs uppercase tracking-widest text-gold-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0 block">Explore</span>

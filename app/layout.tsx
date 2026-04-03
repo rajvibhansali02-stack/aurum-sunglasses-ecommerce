@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   description: "Discover the premium collection of luxury sunglasses. Elegance, style, and exclusive designs tailored for the modern elite.",
 };
 
+import { AppProvider } from "./providers";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,9 +31,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <AppProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </AppProvider>
       </body>
     </html>
   );

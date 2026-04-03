@@ -6,9 +6,12 @@ import { ShoppingBag, Heart, User, Search, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+import { useAppContext } from "@/app/providers";
+
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { cartItems, likedItems, user } = useAppContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,10 +22,11 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
+    { name: "Home", href: "/" },
     { name: "Men", href: "/category/men" },
     { name: "Women", href: "/category/women" },
     { name: "Unisex", href: "/category/unisex" },
-    { name: "Premium", href: "/category/premium" },
+    { name: "Shop All", href: "/shop" },
   ];
 
   return (
@@ -67,17 +71,24 @@ export default function Navbar() {
           <button className="hover:text-gold-500 transition-colors hidden md:block">
             <Search size={20} />
           </button>
-          <Link href="/wishlist" className="hover:text-gold-500 transition-colors hidden md:block">
+          <Link href="/wishlist" className="hover:text-gold-500 transition-colors hidden md:block relative">
             <Heart size={20} />
+            {likedItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                {likedItems.length}
+              </span>
+            )}
           </Link>
-          <Link href="/login" className="hover:text-gold-500 transition-colors">
-            <User size={20} />
+          <Link href={user ? "/profile" : "/login"} className="hover:text-gold-500 transition-colors">
+            <User size={20} className={user ? "text-gold-500" : ""} />
           </Link>
           <Link href="/cart" className="hover:text-gold-500 transition-colors relative">
             <ShoppingBag size={20} />
-            <span className="absolute -top-2 -right-2 bg-gold-500 text-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-              2
-            </span>
+            {cartItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-gold-500 text-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                {cartItems.length}
+              </span>
+            )}
           </Link>
         </div>
       </div>
